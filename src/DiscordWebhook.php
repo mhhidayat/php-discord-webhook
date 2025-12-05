@@ -43,6 +43,16 @@ class DiscordWebhook extends CoreDiscordWebhook
     }
 
     /**
+     * @param string $text
+     * @return self
+     */
+    public function text(string $text): self
+    {
+        $this->text = $text;
+        return $this;
+    }
+
+    /**
      * @param array $headers
      * @return self
      */

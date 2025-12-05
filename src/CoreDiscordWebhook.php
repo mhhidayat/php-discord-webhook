@@ -5,8 +5,8 @@ namespace Mhhidayat\PhpWebhookDiscord;
 class CoreDiscordWebhook
 {
 
-    protected string $setWebhookURL = "", $JSONResponse = "";
-    protected array $messages = [], $content, $headers = [
+    protected string $setWebhookURL = "", $JSONResponse = "", $text = "";
+    protected array $content, $headers = [
         "Content-Type: application/json",
     ];
     protected bool $isSuccessful = false;
@@ -39,6 +39,12 @@ class CoreDiscordWebhook
      */
     protected function getContentEncode(): string
     {
+        if ($this->text) {
+            return json_encode([
+                "content" => $this->text
+            ]);
+        }
+
         if (empty($this->content)) {
             throw new DiscordWebhookException(
                 "Pesan belum di set. Gunakan method setMessage() untuk mengaturnya."
