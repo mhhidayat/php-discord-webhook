@@ -53,6 +53,16 @@ class DiscordWebhook extends CoreDiscordWebhook
     }
 
     /**
+     * @param string $username
+     * @return self
+     */
+    public function setUsername(string $username): self
+    {
+        $this->username = $username;
+        return $this;
+    }
+
+    /**
      * @param array $headers
      * @return self
      */

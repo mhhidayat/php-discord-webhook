@@ -39,6 +39,7 @@ final class DiscordWebhookTest extends TestCase
             "Content-Type: application/json",
         ])
             ->setWebhookURL("https://discord.com/api/webhooks/1446513684712132700/WwnU7-koive-XgBRu0lFDawVFzgoUqc-FzEOOKWxCy_IsHYGOLJMf3iix-Joib7KN1WT")
+            ->setUsername("mhhidayat")
             ->text("Hello test")
             ->send();
 

@@ -5,7 +5,7 @@ namespace Mhhidayat\PhpWebhookDiscord;
 class CoreDiscordWebhook
 {
 
-    protected string $setWebhookURL = "", $JSONResponse = "", $text = "";
+    protected string $setWebhookURL = "", $JSONResponse = "", $text = "", $username = "";
     protected array $content, $headers = [
         "Content-Type: application/json",
     ];
@@ -40,9 +40,15 @@ class CoreDiscordWebhook
     protected function getContentEncode(): string
     {
         if ($this->text) {
-            return json_encode([
-                "content" => $this->text
-            ]);
+            $contentSend = [
+                "content" => $this->text,
+            ];
+
+            if ($this->username) {
+                $contentSend["username"] = $this->username;
+            }
+
+            return json_encode($contentSend);
         }
 
         if (empty($this->content)) {
