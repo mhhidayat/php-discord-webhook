@@ -40,21 +40,12 @@ class CoreDiscordWebhook
     protected function getContentEncode(): string
     {
         if ($this->text) {
-            $content = [
-                "content"    => $this->text,
-            ];
+            $content = ["content" => $this->text];
 
-            if ($this->username) {
-                $content["username"] = $this->username;
-            }
+            if ($this->username) $content["username"] = $this->username;
+            if ($this->avatarURL) $content["avatar_url"] = $this->avatarURL;
+            if ($this->allowTTS) $content["tts"] = $this->allowTTS;
 
-            if ($this->avatarURL) {
-                $content["avatar_url"] = $this->avatarURL;
-            }
-
-            if ($this->allowTTS) {
-                $content["tts"] = $this->allowTTS;
-            }
             return json_encode($content);
         }
 
