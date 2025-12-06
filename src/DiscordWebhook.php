@@ -73,6 +73,15 @@ class DiscordWebhook extends CoreDiscordWebhook
     }
 
     /**
+     * @return self
+     */
+    public function allowTTS(): self
+    {
+        $this->allowTTS = true;
+        return $this;
+    }
+
+    /**
      * @param array $headers
      * @return self
      */

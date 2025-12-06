@@ -9,7 +9,7 @@ class CoreDiscordWebhook
     protected array $content, $headers = [
         "Content-Type: application/json",
     ];
-    protected bool $isSuccessful = false;
+    protected bool $isSuccessful = false, $allowTTS = false;
     protected int $timeout = 15;
 
     /**
@@ -50,6 +50,10 @@ class CoreDiscordWebhook
 
             if ($this->avatarURL) {
                 $contentSend["avatar_url"] = $this->avatarURL;
+            }
+
+            if ($this->allowTTS) {
+                $contentSend["tts"] = $this->allowTTS;
             }
 
             return json_encode($contentSend);
