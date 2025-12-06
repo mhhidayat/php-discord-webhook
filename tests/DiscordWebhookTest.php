@@ -61,4 +61,19 @@ final class DiscordWebhookTest extends TestCase
 
         $this->assertTrue($respDiscordWebhook->successful());
     }
+
+    public function testWebhookCommon()
+    {
+        $respDiscordWebhook = DiscordWebhook::make()
+            ->setWebhookURL($this->webhookURL)
+            ->setUsername("mhhidayat")
+            ->setAvatar($this->avatarURL)
+            ->allowTTS()
+            ->text("Hello test")
+            ->sendWhen(function () {
+                return 1 == 1;
+            });
+
+        $this->assertTrue($respDiscordWebhook->successful());
+    }
 }
