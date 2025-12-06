@@ -63,6 +63,16 @@ class DiscordWebhook extends CoreDiscordWebhook
     }
 
     /**
+     * @param string $avatarURL
+     * @return self
+     */
+    public function setAvatar(string $avatarURL): self
+    {
+        $this->avatarURL = $avatarURL;
+        return $this;
+    }
+
+    /**
      * @param array $headers
      * @return self
      */
