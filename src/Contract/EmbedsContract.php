@@ -41,6 +41,15 @@ class EmbedsContract implements GeneralInterface
     }
 
     /**
+     * @return self
+     */
+    public function enableTimestamp(): self
+    {
+        $this->embedsData["timestamp"] = date("c");
+        return $this;
+    }
+
+    /**
      * @param Colors|int $color
      * @return self
      */
