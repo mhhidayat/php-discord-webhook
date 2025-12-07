@@ -102,6 +102,7 @@ final class DiscordWebhookTest extends TestCase
                 $e->title("Test embed");
                 $e->description("My test description");
                 $e->url($this->avatarURL);
+                $e->enableTimestamp();
                 $e->color(Colors::Green);
                 $e->authorName("Mhhidayat");
                 $e->authorUrl($this->avatarURL);
