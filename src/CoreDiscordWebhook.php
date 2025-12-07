@@ -2,13 +2,15 @@
 
 namespace Mhhidayat\PhpWebhookDiscord;
 
+use Mhhidayat\PhpWebhookDiscord\Exception\DiscordWebhookException;
+
 class CoreDiscordWebhook
 {
 
     protected string $setWebhookURL = "", $JSONResponse = "", $text = "", $username = "", $avatarURL = "";
     protected array $content, $headers = [
         "Content-Type: application/json",
-    ];
+    ], $embeds = [];
     protected bool $isSuccessful = false, $allowTTS = false;
     protected int $timeout = 15;
 
@@ -46,6 +48,10 @@ class CoreDiscordWebhook
             if ($this->avatarURL) $content["avatar_url"] = $this->avatarURL;
             if ($this->allowTTS) $content["tts"] = $this->allowTTS;
 
+            if (!empty($this->embeds)) {
+                $content["embeds"][] = $this->embeds;
+            }
+
             return json_encode($content);
         }
 
@@ -54,7 +60,13 @@ class CoreDiscordWebhook
                 "The content is not set. Use the text() or setContent() method to set it."
             );
         }
-        return json_encode($this->content);
+
+        $content = $this->content;
+        if (!empty($this->embeds)) {
+            $content["embeds"][] = $this->embeds;
+        }
+
+        return json_encode($content);
     }
 
     /**

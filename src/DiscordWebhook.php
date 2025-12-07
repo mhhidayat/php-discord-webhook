@@ -3,6 +3,8 @@
 namespace Mhhidayat\PhpWebhookDiscord;
 
 use Closure;
+use Mhhidayat\PhpWebhookDiscord\Contract\EmbedsContract;
+use Mhhidayat\PhpWebhookDiscord\Exception\DiscordWebhookException;
 
 class DiscordWebhook extends CoreDiscordWebhook
 {
@@ -48,6 +50,18 @@ class DiscordWebhook extends CoreDiscordWebhook
         }
 
         $this->content = $content;
+        return $this;
+    }
+
+    /**
+     * @param Closure $embedsHandler
+     * @return self
+     */
+    public function addEmbeds(Closure $embedsHandler): self
+    {
+        $embeds = new EmbedsContract();
+        $embedsHandler($embeds);
+        $this->embeds = $embeds->build();
         return $this;
     }
 
