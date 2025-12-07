@@ -108,6 +108,7 @@ final class DiscordWebhookTest extends TestCase
                 $e->authorUrl($this->avatarURL);
                 $e->authorIconUrl($this->avatarURL);
                 $e->footerText("My footer text");
+                $e->footerIconUrl($this->avatarURL);
                 $e->fields($fieldsData);
             })
             ->sendWhen(function () {
