@@ -1,8 +1,10 @@
 <?php
 
 use Dotenv\Dotenv;
-use Mhhidayat\PhpWebhookDiscord\DiscordWebhook;
 use PHPUnit\Framework\TestCase;
+use Mhhidayat\PhpWebhookDiscord\Enum\Colors;
+use Mhhidayat\PhpWebhookDiscord\DiscordWebhook;
+use Mhhidayat\PhpWebhookDiscord\Contract\EmbedsContract;
 
 final class DiscordWebhookTest extends TestCase
 {
@@ -74,6 +76,59 @@ final class DiscordWebhookTest extends TestCase
                 return 1 == 1;
             });
 
+        $this->assertTrue($respDiscordWebhook->successful());
+    }
+
+    public function testWebhookEmbed()
+    {
+        $fieldsData = [
+            [
+                "name" => "Test Field",
+                "value" => "This is a test field",
+                "inline" => false,
+            ],
+            [
+                "name" => "Test Field 2",
+                "value" => "This is a test field 2",
+                "inline" => false,
+            ]
+        ];
+        $respDiscordWebhook = DiscordWebhook::make()
+            ->setWebhookURL($this->webhookURL)
+            ->text("Test text embed")
+            ->setAvatar($this->avatarURL)
+            ->setUsername("mhhidayat")
+            ->addEmbeds(function (EmbedsContract $e) use($fieldsData) {
+                $e->title("Test embed");
+                $e->description("My test description");
+                $e->url($this->avatarURL);
+                $e->color(Colors::Green);
+                $e->authorName("Mhhidayat");
+                $e->authorUrl($this->avatarURL);
+                $e->authorIconUrl($this->avatarURL);
+                $e->fields($fieldsData);
+            })
+            ->sendWhen(function () {
+                return 1 == 1;
+            });
+
+        $this->assertTrue($respDiscordWebhook->successful());
+    }
+
+    
+    public function testWebhookEmbedError()
+    {
+        $respDiscordWebhook = DiscordWebhook::make()
+            ->setWebhookURL($this->webhookURL)
+            ->text("Test text embed not valid")
+            ->setAvatar($this->avatarURL)
+            ->setUsername("mhhidayat")
+            ->addEmbeds(function () {
+                return "Not valid closure";
+            })
+            ->sendWhen(function () {
+                return 1 == 1;
+            });
         $this->assertTrue($respDiscordWebhook->successful());
     }
 }
