@@ -119,7 +119,7 @@ class EmbedsContract implements GeneralInterface
      */
     public function imageUrl(string $imageUrl): self
     {
-        if (!str_starts_with($imageUrl, "https")) {
+        if (str_starts_with($imageUrl, "http")) {
             throw new DiscordWebhookException("Source url of image only support https");
         }
 
