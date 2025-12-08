@@ -126,6 +126,16 @@ class EmbedsContract implements GeneralInterface
         $this->embedsData["image"]["url"] = $imageUrl;
         return $this;
     }
+
+    /**
+     * @param int $imageHeight
+     * @return self
+     */
+    public function imageHeight(int $imageHeight): self
+    {
+        $this->embedsData["image"]["height"] = $imageHeight;
+        return $this;
+    }
     
     /**
      * @param array $fields
