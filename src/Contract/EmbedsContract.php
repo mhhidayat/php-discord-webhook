@@ -176,6 +176,16 @@ class EmbedsContract implements GeneralInterface
         $this->embedsData["thumbnail"]["height"] = $thumbnailHeight;
         return $this;
     }
+
+    /**
+     * @param string $providerName
+     * @return self
+     */
+    public function providerName(string $providerName): self
+    {
+        $this->embedsData["provider"]["name"] = $providerName;
+        return $this;
+    }
     
     /**
      * @param array $fields
