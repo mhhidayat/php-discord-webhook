@@ -178,6 +178,16 @@ class EmbedsContract implements GeneralInterface
     }
 
     /**
+     * @param string $videoUrl
+     * @return self
+     */
+    public function videoUrl(string $videoUrl): self
+    {
+        $this->embedsData["video"]["url"] = $videoUrl;
+        return $this;
+    }
+
+    /**
      * @param string $providerName
      * @return self
      */
