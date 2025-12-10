@@ -186,6 +186,16 @@ class EmbedsContract implements GeneralInterface
         $this->embedsData["provider"]["name"] = $providerName;
         return $this;
     }
+
+    /**
+     * @param string $providerUrl
+     * @return self
+     */
+    public function providerUrl(string $providerUrl): self
+    {
+        $this->embedsData["provider"]["url"] = $providerUrl;
+        return $this;
+    }
     
     /**
      * @param array $fields
