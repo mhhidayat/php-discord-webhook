@@ -627,7 +627,7 @@ showcaseProduct(
 
 ## License
 
-See LICENSE.md for details.
+See [LICENSE.md](./LICENSE.md) for details.
 
 ## Author
 
