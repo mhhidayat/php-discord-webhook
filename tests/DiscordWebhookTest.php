@@ -121,6 +121,7 @@ final class DiscordWebhookTest extends TestCase
                 $e->providerUrl($this->avatarURL);
                 $e->videoUrl($this->videoURL);
                 $e->videoHeight(1);
+                $e->videoWidth(1);
             })
             ->sendWhen(function () {
                 return 1 == 1;
