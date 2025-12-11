@@ -234,7 +234,7 @@ class EmbedsContract implements GeneralInterface
     public function fields(array $fields): self
     {
 
-        if (count($fields) > 10) {
+        if (count($fields) > 25) {
             throw new DiscordWebhookException("You can only have 10 fields in an embed");
         }
 
