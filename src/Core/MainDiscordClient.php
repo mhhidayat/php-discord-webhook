@@ -18,20 +18,20 @@ class MainDiscordClient extends CoreDiscordClient
     }
 
     /**
-     * @param string $setWebhookURL
+     * @param string $webhookURL
      * @return self
      */
-    public function setWebhookURL(string $setWebhookURL): self
+    public function setWebhookURL(string $webhookURL): self
     {
-        if (empty(trim($setWebhookURL))) {
+        if (empty(trim($webhookURL))) {
             throw new DiscordClientException("Webhook URL cannot be empty.");
         }
         
-        if (!filter_var($setWebhookURL, FILTER_VALIDATE_URL)) {
+        if (!filter_var($webhookURL, FILTER_VALIDATE_URL)) {
             throw new DiscordClientException("Invalid webhook URL format.");
         }
         
-        $this->setWebhookURL = $setWebhookURL;
+        $this->webhookURL = $webhookURL;
         return $this;
     }
 
@@ -138,9 +138,7 @@ class MainDiscordClient extends CoreDiscordClient
             );
         }
 
-        $instance = new self();
-        $instance->headers = $headers;
-        return $instance;
+        return new self($headers);
     }
 
     /**
@@ -150,9 +148,7 @@ class MainDiscordClient extends CoreDiscordClient
      */
     public static function timeout(int $seconds): self
     {
-        $instance = new self();
-        $instance->timeout = $seconds;
-        return $instance;
+        return new self([], $seconds);
     }
 
     /**
@@ -160,7 +156,7 @@ class MainDiscordClient extends CoreDiscordClient
      */
     public function send(): self
     {
-        $this->httpRequestClient();
+        $this->sendRequest();
         return $this;
     }
 
@@ -190,7 +186,7 @@ class MainDiscordClient extends CoreDiscordClient
             return $this;
         }
 
-        $this->httpRequestClient();
+        $this->sendRequest();
         return $this;
     }
 
@@ -199,7 +195,7 @@ class MainDiscordClient extends CoreDiscordClient
      */
     public function successful(): bool
     {
-        return $this->isSuccessful;
+        return $this->lastResponse?->isSuccessful() ?? false;
     }
 
     /**
@@ -207,7 +203,7 @@ class MainDiscordClient extends CoreDiscordClient
      */
     public function failed(): bool
     {
-        return !$this->isSuccessful;
+        return !$this->successful();
     }
 
     /**
@@ -215,6 +211,6 @@ class MainDiscordClient extends CoreDiscordClient
      */
     public function getResponseJson(): string
     {
-        return $this->JSONResponse;
+        return $this->lastResponse?->getBody() ?? '';
     }
 }
