@@ -3,7 +3,7 @@
 namespace Mhhidayat\PhpDiscordClient\Contract;
 
 use Mhhidayat\PhpDiscordClient\Enums\Colors;
-use Mhhidayat\PhpDiscordClient\Exception\DiscordWebhookException;
+use Mhhidayat\PhpDiscordClient\Exception\DiscordClientException;
 use Mhhidayat\PhpDiscordClient\Interface\GeneralInterface;
 
 class EmbedsContract implements GeneralInterface
@@ -120,7 +120,7 @@ class EmbedsContract implements GeneralInterface
     public function imageUrl(string $imageUrl): self
     {
         if (!str_starts_with($imageUrl, "https")) {
-            throw new DiscordWebhookException("Source url of image only support https");
+            throw new DiscordClientException("Source url of image only support https");
         }
 
         $this->embedsData["image"]["url"] = $imageUrl;
@@ -235,7 +235,7 @@ class EmbedsContract implements GeneralInterface
     {
 
         if (count($fields) > 25) {
-            throw new DiscordWebhookException("You can only have 10 fields in an embed");
+            throw new DiscordClientException("You can only have 10 fields in an embed");
         }
 
         $allowedKeys = array_flip([

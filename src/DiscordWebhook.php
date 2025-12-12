@@ -4,7 +4,7 @@ namespace Mhhidayat\PhpDiscordClient;
 
 use Closure;
 use Mhhidayat\PhpDiscordClient\Contract\EmbedsContract;
-use Mhhidayat\PhpDiscordClient\Exception\DiscordWebhookException;
+use Mhhidayat\PhpDiscordClient\Exception\DiscordClientException;
 
 class DiscordWebhook extends CoreDiscordWebhook
 {
@@ -37,14 +37,14 @@ class DiscordWebhook extends CoreDiscordWebhook
             $content = $contentHandler();
 
             if (!is_array($content)) {
-                throw new DiscordWebhookException(
+                throw new DiscordClientException(
                     "The Closure for setContent() must return an array."
                 );
             }
         } else if (is_array($contentHandler)) {
             $content = $contentHandler;
         } else {
-            throw new DiscordWebhookException(
+            throw new DiscordClientException(
                 "The parameter to setContent() must be an array or a Closure that returns an array."
             );
         }
@@ -72,7 +72,7 @@ class DiscordWebhook extends CoreDiscordWebhook
     public function text(string $text): self
     {
         if (strlen($text) > 2000) {
-            throw new DiscordWebhookException(
+            throw new DiscordClientException(
                 "The text is too long. Maximum 2000 characters."
             );
         }
@@ -117,7 +117,7 @@ class DiscordWebhook extends CoreDiscordWebhook
     public static function withHeaders(array $headers): self
     {
         if (empty($headers)) {
-            throw new DiscordWebhookException(
+            throw new DiscordClientException(
                 "withHeaders() requires a valid headers array."
             );
         }
@@ -158,14 +158,14 @@ class DiscordWebhook extends CoreDiscordWebhook
             $isSend = $isSendHandler();
 
             if (!is_bool($isSend)) {
-                throw new DiscordWebhookException(
+                throw new DiscordClientException(
                     "Closure for sendWhen() must return a boolean."
                 );
             }
         } else if (is_bool($isSendHandler)) {
             $isSend = $isSendHandler;
         } else {
-            throw new DiscordWebhookException(
+            throw new DiscordClientException(
                 "The parameter to sendWhen() must be a boolean or a Closure that returns a boolean."
             );
         }

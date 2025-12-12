@@ -2,7 +2,7 @@
 
 namespace Mhhidayat\PhpDiscordClient;
 
-use Mhhidayat\PhpDiscordClient\Exception\DiscordWebhookException;
+use Mhhidayat\PhpDiscordClient\Exception\DiscordClientException;
 
 class CoreDiscordWebhook
 {
@@ -29,7 +29,7 @@ class CoreDiscordWebhook
     protected function getURL(): string
     {
         if (!$this->setWebhookURL) {
-            throw new DiscordWebhookException(
+            throw new DiscordClientException(
                 "Webhook URL is not set. Use the setWebhookURL() method to set it."
             );
         }
@@ -56,7 +56,7 @@ class CoreDiscordWebhook
         }
 
         if (empty($this->content)) {
-            throw new DiscordWebhookException(
+            throw new DiscordClientException(
                 "The content is not set. Use the text() or setContent() method to set it."
             );
         }

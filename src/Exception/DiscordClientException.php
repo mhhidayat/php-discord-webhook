@@ -2,4 +2,4 @@
 
 namespace Mhhidayat\PhpDiscordClient\Exception;
 
-class DiscordWebhookException extends \Exception {}
+class DiscordClientException extends \Exception {}
