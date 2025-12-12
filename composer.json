@@ -1,9 +1,9 @@
 {
-    "name": "mhhidayat/php-webhook-discord",
+    "name": "mhhidayat/php-discord-client",
     "type": "library",
     "autoload": {
         "psr-4": {
-            "Mhhidayat\\PhpWebhookDiscord\\": "src/"
+            "Mhhidayat\\PhpDiscordClient\\": "src/"
         }
     },
     "scripts": {
