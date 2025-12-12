@@ -16,6 +16,10 @@ class EmbedsContract implements ContractInterface
      */
     public function title(string $title): self
     {
+        if (strlen($title) > 256) {
+            throw new DiscordClientException("Embed title cannot exceed 256 characters.");
+        }
+        
         $this->embedsData["title"] = $title;
         return $this;
     }
@@ -26,6 +30,10 @@ class EmbedsContract implements ContractInterface
      */
     public function description(string $description): self
     {
+        if (strlen($description) > 4096) {
+            throw new DiscordClientException("Embed description cannot exceed 4096 characters.");
+        }
+        
         $this->embedsData["description"] = $description;
         return $this;
     }
@@ -138,12 +146,12 @@ class EmbedsContract implements ContractInterface
     }
 
     /**
-     * @param int $iamgeWidth
+     * @param int $imageWidth
      * @return self
      */
-    public function imageWidth(int $iamgeWidth): self
+    public function imageWidth(int $imageWidth): self
     {
-        $this->embedsData["image"]["width"] = $iamgeWidth;
+        $this->embedsData["image"]["width"] = $imageWidth;
         return $this;
     }
 
@@ -235,7 +243,7 @@ class EmbedsContract implements ContractInterface
     {
 
         if (count($fields) > 25) {
-            throw new DiscordClientException("You can only have 10 fields in an embed");
+            throw new DiscordClientException("You can only have 25 fields in an embed");
         }
 
         $allowedKeys = array_flip([
