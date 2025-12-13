@@ -17,6 +17,25 @@ class MainDiscordClient extends CoreDiscordClient
         return new self();
     }
 
+    public static function withConfig(array $config): self
+    {
+        $webhook = new self();
+        
+        if (isset($config['webhook_url'])) {
+            $webhook->setWebhookURL($config['webhook_url']);
+        }
+        
+        if (isset($config['username'])) {
+            $webhook->setUsername($config['username']);
+        }
+        
+        if (isset($config['avatar_url'])) {
+            $webhook->setAvatar($config['avatar_url']);
+        }
+        
+        return $webhook;
+    }
+
     /**
      * @param array $headers
      * @return self
