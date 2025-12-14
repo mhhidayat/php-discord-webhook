@@ -8,7 +8,7 @@ use Mhhidayat\PhpDiscordClient\Exception\DiscordClientException;
 use Mhhidayat\PhpDiscordClient\Http\HttpClient;
 use Mhhidayat\PhpDiscordClient\Http\HttpResponse;
 
-class CoreDiscordClient
+abstract class CoreDiscordClient
 {
     protected string $webhookURL = "";
     protected string $text = "";
