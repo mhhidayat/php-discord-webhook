@@ -7,7 +7,7 @@ use Mhhidayat\PhpDiscordClient\Interface\DiscordBotInterface;
 use Mhhidayat\PhpDiscordClient\Trait\HasDiscordClient;
 
 /**
- * Discord Webhook Client
+ * Discord Bot Client
  *
  * @method static static make()
  * @method static static withConfig(array $config)
