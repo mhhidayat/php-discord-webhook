@@ -11,9 +11,7 @@ class HttpClient
 
     public function __construct(array $headers = [], int $timeout = 15)
     {
-        $this->headers = array_merge([
-            "Content-Type: application/json",
-        ], $headers);
+        $this->headers = $headers;
         $this->timeout = $timeout;
     }
 
