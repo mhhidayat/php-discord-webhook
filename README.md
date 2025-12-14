@@ -1,6 +1,15 @@
-# PHP Discord Webhook
+# PHP Discord Client
 
-A simple and elegant PHP library for sending messages to Discord via webhooks.
+A comprehensive PHP library for interacting with Discord via both webhooks and bot API. Send messages, rich embeds, and manage Discord communications with an elegant, fluent interface.
+
+## Features
+
+- **Webhook Support**: Send messages via Discord webhooks
+- **Bot API Support**: Send messages using Discord bot tokens
+- **Rich Embeds**: Create beautiful embeds with the fluent builder
+- **Flexible Content**: Support for text, embeds, and custom payloads
+- **Error Handling**: Comprehensive validation and error reporting
+- **Modern PHP**: Built for PHP 8.0+ with type safety and modern features
 
 ## Requirements
 
@@ -13,12 +22,34 @@ A simple and elegant PHP library for sending messages to Discord via webhooks.
 Install via Composer:
 
 ```bash
-composer require mhhidayat/php-webhook-discord
+composer require mhhidayat/php-discord-client
+```
+
+## Quick Start
+
+```php
+use Mhhidayat\PhpDiscordClient\DiscordWebhook;
+use Mhhidayat\PhpDiscordClient\DiscordBot;
+
+// Send via webhook (simple setup)
+DiscordWebhook::make()
+    ->setWebhookURL('https://discord.com/api/webhooks/YOUR_WEBHOOK_URL')
+    ->text('Hello from webhook!')
+    ->send();
+
+// Send via bot (more features)
+DiscordBot::make()
+    ->setBotToken('YOUR_BOT_TOKEN')
+    ->setChannelID('YOUR_CHANNEL_ID')
+    ->text('Hello from bot!')
+    ->send();
 ```
 
 ## Basic Usage
 
-### Simple Text Message
+### Webhook Messages
+
+Send messages using Discord webhooks:
 
 ```php
 use Mhhidayat\PhpDiscordClient\DiscordWebhook;
@@ -29,15 +60,31 @@ DiscordWebhook::make()
     ->send();
 ```
 
-### Rich Embeds with Builder (New!)
+### Bot Messages
 
-Use the fluent embed builder for creating rich embeds easily:
+Send messages using a Discord bot token:
+
+```php
+use Mhhidayat\PhpDiscordClient\DiscordBot;
+
+DiscordBot::make()
+    ->setBotToken('YOUR_BOT_TOKEN')
+    ->setChannelID('YOUR_CHANNEL_ID')
+    ->text('Hello from bot!')
+    ->send();
+```
+
+### Rich Embeds with Builder
+
+Use the fluent embed builder for creating rich embeds with both webhooks and bots:
 
 ```php
 use Mhhidayat\PhpDiscordClient\DiscordWebhook;
+use Mhhidayat\PhpDiscordClient\DiscordBot;
 use Mhhidayat\PhpDiscordClient\Contract\EmbedsContract;
 use Mhhidayat\PhpDiscordClient\Enums\Colors;
 
+// Using webhook
 DiscordWebhook::make()
     ->setWebhookURL('https://discord.com/api/webhooks/YOUR_WEBHOOK_URL')
     ->text('Check out this embed!')
@@ -61,13 +108,25 @@ DiscordWebhook::make()
               ]);
     })
     ->send();
+
+// Using bot (same embed builder interface)
+DiscordBot::make()
+    ->setBotToken('YOUR_BOT_TOKEN')
+    ->setChannelID('YOUR_CHANNEL_ID')
+    ->addEmbeds(function (EmbedsContract $embed) {
+        $embed->title('Bot Embed')
+              ->description('Sent via bot API')
+              ->color(Colors::Green);
+    })
+    ->send();
 ```
 
-### Custom Content with Embeds (Legacy)
+### Custom Content with Raw Arrays
 
-You can still use raw arrays for custom content:
+You can use raw arrays for custom content with both webhooks and bots:
 
 ```php
+// Using webhook
 DiscordWebhook::make()
     ->setWebhookURL('https://discord.com/api/webhooks/YOUR_WEBHOOK_URL')
     ->setContent([
@@ -93,28 +152,117 @@ DiscordWebhook::make()
         ]
     ])
     ->send();
+
+// Using bot
+DiscordBot::make()
+    ->setBotToken('YOUR_BOT_TOKEN')
+    ->setChannelID('YOUR_CHANNEL_ID')
+    ->setContent([
+        'content' => 'Bot message with embed!',
+        'embeds' => [
+            [
+                'title' => 'Bot Embed',
+                'description' => 'Sent via Discord Bot API',
+                'color' => 5814783
+            ]
+        ]
+    ])
+    ->send();
 ```
 
 ### Customize Username and Avatar
 
+Customize the appearance of your messages (webhooks support username/avatar override, bots use their configured identity):
+
 ```php
+// Webhook with custom appearance
 DiscordWebhook::make()
     ->setWebhookURL('https://discord.com/api/webhooks/YOUR_WEBHOOK_URL')
     ->setUsername('Custom Bot Name')
     ->setAvatar('https://example.com/avatar.png')
     ->text('Message with custom appearance')
     ->send();
+
+// Bot messages use the bot's configured username and avatar
+DiscordBot::make()
+    ->setBotToken('YOUR_BOT_TOKEN')
+    ->setChannelID('YOUR_CHANNEL_ID')
+    ->text('Message from bot')
+    ->send();
 ```
 
 ### Text-to-Speech (TTS)
 
+Enable TTS for your messages with both webhooks and bots:
+
 ```php
+// Webhook with TTS
 DiscordWebhook::make()
     ->setWebhookURL('https://discord.com/api/webhooks/YOUR_WEBHOOK_URL')
     ->text('This message will be read aloud')
     ->allowTTS()
     ->send();
+
+// Bot with TTS
+DiscordBot::make()
+    ->setBotToken('YOUR_BOT_TOKEN')
+    ->setChannelID('YOUR_CHANNEL_ID')
+    ->text('Bot TTS message')
+    ->allowTTS()
+    ->send();
 ```
+
+## Webhooks vs Bots
+
+### When to Use Webhooks
+
+Webhooks are perfect for:
+- Simple notifications and alerts
+- External integrations (CI/CD, monitoring systems)
+- One-way communication to Discord
+- When you don't need a persistent bot presence
+- Quick setup without bot permissions
+
+```php
+// Webhook example - great for CI/CD notifications
+DiscordWebhook::make()
+    ->setWebhookURL($_ENV['DISCORD_WEBHOOK_URL'])
+    ->setUsername('Deploy Bot')
+    ->text('✅ Deployment to production completed successfully!')
+    ->send();
+```
+
+### When to Use Bots
+
+Bots are ideal for:
+- Interactive applications that need to respond to users
+- Complex Discord integrations
+- When you need advanced Discord features
+- Applications requiring persistent presence
+- Better rate limiting and API access
+
+```php
+// Bot example - better for interactive features
+DiscordBot::make()
+    ->setBotToken($_ENV['DISCORD_BOT_TOKEN'])
+    ->setChannelID($_ENV['DISCORD_CHANNEL_ID'])
+    ->text('🤖 Bot is online and ready to help!')
+    ->send();
+```
+
+### Setup Requirements
+
+**Webhooks:**
+1. Create a webhook in your Discord server settings
+2. Copy the webhook URL
+3. Start sending messages immediately
+
+**Bots:**
+1. Create a bot application in Discord Developer Portal
+2. Generate and copy the bot token
+3. Invite the bot to your server with appropriate permissions
+4. Get the channel ID where you want to send messages
+5. Use the bot token and channel ID in your code
 
 ## Advanced Usage
 
@@ -147,7 +295,7 @@ DiscordWebhook::make()
               ->thumbnailUrl('https://example.com/status-icon.png')
               ->thumbnailWidth(80)
               ->thumbnailHeight(80)
-              ->footerText('Powered by PHP Discord Webhook')
+              ->footerText('Powered by PHP Discord Client')
               ->footerIconUrl('https://example.com/footer-icon.png')
               ->fields([
                   [
@@ -297,13 +445,10 @@ if ($webhook->failed()) {
 
 ## API Reference
 
-### Methods
+### Common Methods (Both DiscordWebhook and DiscordBot)
 
 #### `make(): self`
-Create a new instance of DiscordWebhook.
-
-#### `setWebhookURL(string $url): self`
-Set the Discord webhook URL (required).
+Create a new instance of the Discord client.
 
 #### `text(string $text): self`
 Set a simple text message (max 2000 characters).
@@ -314,17 +459,11 @@ Set custom content including embeds. Accepts an array or closure that returns an
 #### `addEmbeds(Closure $embedsHandler): self`
 Add rich embeds using the fluent EmbedsContract builder. The closure receives an EmbedsContract instance.
 
-#### `setUsername(string $username): self`
-Override the default webhook username.
-
-#### `setAvatar(string $avatarURL): self`
-Override the default webhook avatar.
-
 #### `allowTTS(): self`
 Enable text-to-speech for the message.
 
 #### `send(): self`
-Send the webhook message.
+Send the message to Discord.
 
 #### `sendWhen(bool|Closure $condition): self`
 Send the message only if the condition is true.
@@ -338,13 +477,35 @@ Check if the last request failed.
 #### `getResponseJson(): string`
 Get the raw JSON response from Discord.
 
-### Static Methods
+### Webhook-Specific Methods (DiscordWebhook)
+
+#### `setWebhookURL(string $url): self`
+Set the Discord webhook URL (required for webhooks).
+
+#### `setUsername(string $username): self`
+Override the default webhook username.
+
+#### `setAvatar(string $avatarURL): self`
+Override the default webhook avatar.
+
+### Bot-Specific Methods (DiscordBot)
+
+#### `setBotToken(string $token): self`
+Set the Discord bot token (required for bots).
+
+#### `setChannelID(string $channelID): self`
+Set the target channel ID where the bot will send messages (required for bots).
+
+### Static Methods (Both Classes)
 
 #### `withHeaders(array $headers): self`
 Create instance with custom HTTP headers.
 
 #### `timeout(int $seconds): self`
 Create instance with custom timeout (default: 15 seconds).
+
+#### `withConfig(array $config): self`
+Create instance with configuration array.
 
 ### Embed Builder Methods
 
@@ -438,10 +599,11 @@ Common validation errors:
 
 ```php
 use Mhhidayat\PhpDiscordClient\DiscordWebhook;
+use Mhhidayat\PhpDiscordClient\DiscordBot;
 use Mhhidayat\PhpDiscordClient\Contract\EmbedsContract;
 use Mhhidayat\PhpDiscordClient\Enums\Colors;
 
-function sendNotification($message, $level = 'info') {
+function sendNotification($message, $level = 'info', $useBot = false) {
     $colors = [
         'info' => Colors::Blue,
         'success' => Colors::Green,
@@ -456,57 +618,93 @@ function sendNotification($message, $level = 'info') {
         'error' => '🚨'
     ];
     
-    DiscordWebhook::make()
-        ->setWebhookURL($_ENV['DISCORD_WEBHOOK_URL'])
-        ->addEmbeds(function (EmbedsContract $embed) use ($message, $level, $colors, $icons) {
-            $embed->title($icons[$level] . ' ' . strtoupper($level))
-                  ->description($message)
-                  ->color($colors[$level] ?? Colors::Blue)
-                  ->enableTimestamp();
-        })
-        ->send();
+    $client = $useBot 
+        ? DiscordBot::make()
+            ->setBotToken($_ENV['DISCORD_BOT_TOKEN'])
+            ->setChannelID($_ENV['DISCORD_CHANNEL_ID'])
+        : DiscordWebhook::make()
+            ->setWebhookURL($_ENV['DISCORD_WEBHOOK_URL']);
+    
+    $client->addEmbeds(function (EmbedsContract $embed) use ($message, $level, $colors, $icons) {
+        $embed->title($icons[$level] . ' ' . strtoupper($level))
+              ->description($message)
+              ->color($colors[$level] ?? Colors::Blue)
+              ->enableTimestamp();
+    })->send();
 }
 
 sendNotification('User registration completed', 'success');
-sendNotification('Database backup failed', 'error');
+sendNotification('Database backup failed', 'error', true); // Use bot
 ```
 
 ### Error Logging
 
 ```php
 use Mhhidayat\PhpDiscordClient\DiscordWebhook;
+use Mhhidayat\PhpDiscordClient\DiscordBot;
 use Mhhidayat\PhpDiscordClient\Contract\EmbedsContract;
 use Mhhidayat\PhpDiscordClient\Enums\Colors;
 
-function logError($exception) {
-    DiscordWebhook::make()
-        ->setWebhookURL($_ENV['DISCORD_WEBHOOK_URL'])
-        ->setUsername('Error Logger')
-        ->addEmbeds(function (EmbedsContract $embed) use ($exception) {
-            $embed->title('🚨 Error Occurred')
-                  ->description('An exception was thrown in the application')
-                  ->color(Colors::Red)
-                  ->enableTimestamp()
-                  ->fields([
-                      [
-                          'name' => 'Message',
-                          'value' => $exception->getMessage(),
-                          'inline' => false
-                      ],
-                      [
-                          'name' => 'File',
-                          'value' => $exception->getFile(),
-                          'inline' => true
-                      ],
-                      [
-                          'name' => 'Line',
-                          'value' => (string) $exception->getLine(),
-                          'inline' => true
-                      ]
-                  ])
-                  ->footerText('Error Logger v1.0');
-        })
-        ->send();
+function logError($exception, $useBot = false) {
+    if ($useBot) {
+        DiscordBot::make()
+            ->setBotToken($_ENV['DISCORD_BOT_TOKEN'])
+            ->setChannelID($_ENV['DISCORD_ERROR_CHANNEL_ID'])
+            ->addEmbeds(function (EmbedsContract $embed) use ($exception) {
+                $embed->title('🚨 Error Occurred')
+                      ->description('An exception was thrown in the application')
+                      ->color(Colors::Red)
+                      ->enableTimestamp()
+                      ->fields([
+                          [
+                              'name' => 'Message',
+                              'value' => $exception->getMessage(),
+                              'inline' => false
+                          ],
+                          [
+                              'name' => 'File',
+                              'value' => $exception->getFile(),
+                              'inline' => true
+                          ],
+                          [
+                              'name' => 'Line',
+                              'value' => (string) $exception->getLine(),
+                              'inline' => true
+                          ]
+                      ])
+                      ->footerText('Error Logger v2.0 (Bot)');
+            })
+            ->send();
+    } else {
+        DiscordWebhook::make()
+            ->setWebhookURL($_ENV['DISCORD_WEBHOOK_URL'])
+            ->setUsername('Error Logger')
+            ->addEmbeds(function (EmbedsContract $embed) use ($exception) {
+                $embed->title('🚨 Error Occurred')
+                      ->description('An exception was thrown in the application')
+                      ->color(Colors::Red)
+                      ->enableTimestamp()
+                      ->fields([
+                          [
+                              'name' => 'Message',
+                              'value' => $exception->getMessage(),
+                              'inline' => false
+                          ],
+                          [
+                              'name' => 'File',
+                              'value' => $exception->getFile(),
+                              'inline' => true
+                          ],
+                          [
+                              'name' => 'Line',
+                              'value' => (string) $exception->getLine(),
+                              'inline' => true
+                          ]
+                      ])
+                      ->footerText('Error Logger v2.0 (Webhook)');
+            })
+            ->send();
+    }
 }
 ```
 
