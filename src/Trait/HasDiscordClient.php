@@ -46,7 +46,7 @@ trait HasDiscordClient {
             );
         }
 
-        return new self($headers);
+        return new self(headers: $headers);
     }
 
     /**
@@ -56,7 +56,7 @@ trait HasDiscordClient {
      */
     public static function timeout(int $seconds): self
     {
-        return new self([], $seconds);
+        return new self(timeout: $seconds);
     }
 
     /**
