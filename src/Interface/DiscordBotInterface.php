@@ -10,6 +10,7 @@ interface DiscordBotInterface {
     public static function timeout(int $seconds): self;
     public static function withConfig(array $config): self;
     public function setChannelID(string $channelID): self;
+    public function setBotToken(string $botToken): self;
     public function setWebhookURL(string $setWebhookURL): self;
     public function setContent(array|Closure $contentHandler): self;
     public function addEmbeds(Closure $embedsHandler): self;
