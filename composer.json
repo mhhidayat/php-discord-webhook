@@ -3,6 +3,13 @@
     "description": "Lightweight PHP client for Discord Webhook and Bot API",
     "type": "library",
     "license": "MIT",
+    "keywords": [
+        "discord",
+        "discord-webhook",
+        "discord-bot",
+        "php",
+        "api-client"
+    ],
     "autoload": {
         "psr-4": {
             "Mhhidayat\\PhpDiscordClient\\": "src/"
