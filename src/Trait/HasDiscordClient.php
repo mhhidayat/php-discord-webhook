@@ -35,7 +35,7 @@ trait HasDiscordClient {
         }
         
         if (isset($config['avatar_url'])) {
-            $instance->setAvatar($config['avatar_url']);
+            $instance->avatarURL = $config['avatar_url'];
         }
         
         return $instance;
