@@ -31,7 +31,7 @@ trait HasDiscordClient {
         }
         
         if (isset($config['username'])) {
-            $instance->setUsername($config['username']);
+            $instance->username = $config['username'];
         }
         
         if (isset($config['avatar_url'])) {
