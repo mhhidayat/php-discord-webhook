@@ -19,29 +19,6 @@ trait HasDiscordClient {
     }
 
     /**
-     * @param array $config
-     * @return self
-     */
-    public static function withConfig(array $config): self
-    {
-        $instance = new self();
-
-        if (isset($config['webhook_url'])) {
-            $instance->webhookURL = $config['webhook_url'];
-        }
-        
-        if (isset($config['username'])) {
-            $instance->username = $config['username'];
-        }
-        
-        if (isset($config['avatar_url'])) {
-            $instance->avatarURL = $config['avatar_url'];
-        }
-        
-        return $instance;
-    }
-
-    /**
      * @param array $headers
      * @return self
      */
