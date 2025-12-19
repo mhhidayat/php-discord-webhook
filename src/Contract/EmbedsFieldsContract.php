@@ -9,6 +9,10 @@ class EmbedsFieldsContract implements ContractInterface
     private array $fieldsData = [];
     private int $currentIndex = -1;
 
+    /**
+     * @param string $name
+     * @return self
+     */
     public function name(string $name): self
     {
         $this->fieldsData[] = [
