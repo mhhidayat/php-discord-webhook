@@ -33,6 +33,10 @@ class EmbedsFieldsContract implements ContractInterface
         return $this;
     }
 
+    /**
+     * @param bool $inline
+     * @return self
+     */
     public function inline(bool $inline): self
     {
         $this->fieldsData[$this->currentIndex]['inline'] = $inline;
