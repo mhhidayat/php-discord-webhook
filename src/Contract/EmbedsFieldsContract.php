@@ -43,6 +43,9 @@ class EmbedsFieldsContract implements ContractInterface
         return $this;
     }
 
+    /**
+     * @return array
+     */
     public function build(): array
     {
         return $this->fieldsData;
