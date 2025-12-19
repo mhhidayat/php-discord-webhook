@@ -44,6 +44,10 @@ class EmbedsFieldsContract implements ContractInterface
      */
     public function inline(bool $inline): self
     {
+        if ($this->currentIndex === -1) {
+            throw new DiscordClientException('Call name() before inline()');
+        }
+        
         $this->fieldsData[$this->currentIndex]['inline'] = $inline;
         return $this;
     }
