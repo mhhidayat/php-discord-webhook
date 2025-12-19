@@ -25,6 +25,12 @@ class EmbedsFieldsContract implements ContractInterface
         return $this;
     }
 
+    public function inline(bool $inline): self
+    {
+        $this->fieldsData[$this->currentIndex]['inline'] = $inline;
+        return $this;
+    }
+
     public function build(): array
     {
         return $this->fieldsData;
