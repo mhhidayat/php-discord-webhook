@@ -236,28 +236,65 @@ class EmbedsContract implements ContractInterface
     }
     
     /**
-     * @param array $fields
+     * @param array|\Closure $fieldsHandler
      * @return self
      */
-    public function fields(array $fields): self
+    public function fields(array|\Closure $fieldsHandler): self
     {
+        if ($fieldsHandler instanceof \Closure) {
+            $this->handleClosureFields($fieldsHandler);
+            return $this;
+        }
 
+        $this->handleArrayFields($fieldsHandler);
+        return $this;
+    }
+
+    /**
+     * @param \Closure $fieldsHandler
+     * @return void
+     */
+    private function handleClosureFields(\Closure $fieldsHandler): void
+    {
+        $fieldsContract = new EmbedsFieldsContract();
+        $fieldsHandler($fieldsContract);
+        $this->embedsData["fields"] = $fieldsContract->build();
+    }
+
+    /**
+     * @param array $fields
+     * @return void
+     */
+    private function handleArrayFields(array $fields): void
+    {
+        $this->validateFieldsCount($fields);
+        $this->embedsData["fields"] = $this->sanitizeFields($fields);
+    }
+
+    /**
+     * @param array $fields
+     * @return void
+     * @throws DiscordClientException
+     */
+    private function validateFieldsCount(array $fields): void
+    {
         if (count($fields) > 25) {
             throw new DiscordClientException("You can only have 25 fields in an embed");
         }
+    }
 
-        $allowedKeys = array_flip([
-            "name",
-            "value",
-            "inline"
-        ]);
+    /**
+     * @param array $fields
+     * @return array
+     */
+    private function sanitizeFields(array $fields): array
+    {
+        $allowedKeys = array_flip(["name", "value", "inline"]);
         
-        $this->embedsData["fields"] = array_map(
+        return array_map(
             fn($field) => array_intersect_key($field, $allowedKeys),
             $fields
         );
-        
-        return $this;
     }
 
     /**
