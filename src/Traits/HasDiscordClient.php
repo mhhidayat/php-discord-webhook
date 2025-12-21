@@ -18,6 +18,10 @@ trait HasDiscordClient {
         return new self();
     }
 
+    /**
+     * @param array $config
+     * @return self
+     */
     public static function withConfig(array $config): self
     {
         [
@@ -33,7 +37,7 @@ trait HasDiscordClient {
             'channel_id' => null,
             'bot_token' => null
         ];
-        
+
         $instance = new self();
         
         if ($instance->discordClientTarget == "bot") {
