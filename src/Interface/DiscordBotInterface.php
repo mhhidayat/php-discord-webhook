@@ -8,6 +8,7 @@ interface DiscordBotInterface {
     public static function make(): self;
     public static function withHeaders(array $headers): self;
     public static function timeout(int $seconds): self;
+    public static function withConfig(array $config): self;
     public function setChannelID(string $channelID): self;
     public function setBotToken(string $botToken): self;
     public function setContent(array|Closure $contentHandler): self;
