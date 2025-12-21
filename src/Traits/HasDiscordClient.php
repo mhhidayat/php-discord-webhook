@@ -22,7 +22,10 @@ trait HasDiscordClient {
     {
         $instance = new self();
         
-        if (isset($config['webhook_url'])) {
+        if ($instance->discordClientTarget == "bot") {
+            $instance->channelID = $config['channel_id'];
+            $instance->botToken = $config['bot_token'];
+        } elseif ($instance->discordClientTarget == "webhook") {
             $instance->webhookURL = $config['webhook_url'];
         }
         
