@@ -4,7 +4,7 @@ namespace Mhhidayat\PhpDiscordClient;
 
 use Mhhidayat\PhpDiscordClient\Core\CoreDiscordClient;
 use Mhhidayat\PhpDiscordClient\Interface\DiscordBotInterface;
-use Mhhidayat\PhpDiscordClient\Trait\HasDiscordClient;
+use Mhhidayat\PhpDiscordClient\Traits\HasDiscordClient;
 
 /**
  * Discord Bot Client

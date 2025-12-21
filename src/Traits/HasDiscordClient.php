@@ -1,6 +1,6 @@
 <?php
 
-namespace Mhhidayat\PhpDiscordClient\Trait;
+namespace Mhhidayat\PhpDiscordClient\Traits;
 
 use Mhhidayat\PhpDiscordClient\Contract\EmbedsContract;
 use Mhhidayat\PhpDiscordClient\Exception\DiscordClientException;

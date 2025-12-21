@@ -3,7 +3,7 @@
 namespace Mhhidayat\PhpDiscordClient;
 
 use Mhhidayat\PhpDiscordClient\Core\CoreDiscordClient;
-use Mhhidayat\PhpDiscordClient\Trait\HasDiscordClient;
+use Mhhidayat\PhpDiscordClient\Traits\HasDiscordClient;
 use Mhhidayat\PhpDiscordClient\Exception\DiscordClientException;
 use Mhhidayat\PhpDiscordClient\Interface\DiscordWebhookInterface;
 
