@@ -41,21 +41,21 @@ trait HasDiscordClient {
         $instance = new self();
         
         if ($instance->discordClientTarget == "bot") {
-            $instance->channelID = $channelID;
-            $instance->botToken = $botToken;
+            $instance->setChannelID($channelID);
+            $instance->setBotToken($botToken);
         } elseif ($instance->discordClientTarget == "webhook") {
             if (!filter_var($webhookURL, FILTER_VALIDATE_URL)) {
                 throw new DiscordClientException("Invalid webhook URL format.");
             }
-            $instance->webhookURL = $webhookURL;
+            $instance->setWebhookURL($webhookURL);
         }
         
         if ($username) {
-            $instance->username = $username;
+            $instance->setUsername($username);
         }
         
         if ($avatarURL) {
-            $instance->avatar_url = $avatarURL;
+            $instance->setAvatar($avatarURL);
         }
         
         return $instance;
